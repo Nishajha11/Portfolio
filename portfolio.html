@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nisha Jha — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #000000;
+    --surface: #0C0D0F;      /* lifted card */
+    --surface-2: #131417;
+    --text: #ECEDEF;
+    --text-soft: #C3C6CB;
+    --muted: #e1e0e0e4;
+    --hair: rgba(236, 237, 239, 0.12);       /* dividers */
+    --signal: #A892E8;       /* soft lavender-violet — the regression / insight accent */
+    --cyan: #b7b7e2;         /* warm tan — data points / secondary accent (var name kept for simplicity) */
+
+    --maxw: 1180px; 
+
+    --fs-display: clamp(2.6rem, 7.5vw, 6.2rem);
+    --fs-h2: clamp(1.6rem, 3.2vw, 2.5rem);
+    --fs-h3: clamp(1.15rem, 1.9vw, 1.45rem);
+    --fs-body: clamp(1rem, 1.15vw, 1.12rem);
+
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--signal); color: #fff; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: clamp(20px, 5vw, 40px); }
+
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-ligatures: none; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cyan);
+    display: inline-flex; align-items: center; gap: 0.6em;
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--cyan); display: inline-block; }
+
+  p{text-align:justify ;}
+
+  li{text-align:justify ;}
+
+  h1, h2, h3 {
+    font-family: "Archivo", sans-serif; font-stretch: 125%;
+    line-height: 1.02; margin: 0; letter-spacing: -0.015em; color: #fff;
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+    border-bottom: 1px solid var(--hair);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand {
+    font-family: "Archivo", sans-serif; font-stretch: 125%; font-weight: 800;
+    letter-spacing: -0.02em; font-size: 1.05rem; color: #fff;
+    display: flex; align-items: center; gap: 0.5em;
+  }
+  .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--signal); }
+  .nav-right { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.4rem); }
+  .nav-links { display: flex; gap: clamp(1rem, 2.4vw, 2.4rem); }
+  .nav-links a { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; color: var(--muted); transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a:focus-visible { color: var(--text); }
+
+  /* hamburger button — hidden on wide screens */
+  .nav-toggle {
+    display: none; width: 42px; height: 42px; padding: 0;
+    align-items: center; justify-content: center;
+    background: transparent; border: 1px solid var(--hair); border-radius: 4px;
+    cursor: pointer; color: var(--text);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .nav-toggle:hover, .nav-toggle:focus-visible { border-color: rgba(236,237,239,0.4); }
+  .nav-toggle .bars, .nav-toggle .bars::before, .nav-toggle .bars::after {
+    content: ""; display: block; width: 18px; height: 2px; border-radius: 2px;
+    background: var(--text); transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+  }
+  .nav-toggle .bars { position: relative; }
+  .nav-toggle .bars::before { position: absolute; left: 0; top: -6px; }
+  .nav-toggle .bars::after  { position: absolute; left: 0; top: 6px; }
+  /* open → morph into an X */
+  .nav.open .nav-toggle .bars { background: transparent; }
+  .nav.open .nav-toggle .bars::before { transform: translateY(6px) rotate(45deg); }
+  .nav.open .nav-toggle .bars::after  { transform: translateY(-6px) rotate(-45deg); }
+
+  /* ---- collapse to hamburger when the bar gets tight ---- */
+  @media (max-width: 760px) {
+    .nav-toggle { display: inline-flex; }
+    .nav-right {
+      position: absolute; top: 64px; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      padding: 6px clamp(20px, 5vw, 40px) 18px;
+      background: color-mix(in srgb, var(--bg) 96%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--hair);
+      box-shadow: 0 24px 40px -28px rgba(0,0,0,0.9);
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s var(--ease);
+    }
+    .nav.open .nav-right { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+    .nav-links { flex-direction: column; gap: 0; }
+    .nav-links a { padding: 0.95em 0; border-bottom: 1px solid var(--hair); font-size: 0.95rem; }
+    .nav-cta { margin-top: 14px; justify-content: center; padding: 0.8em 1em; font-size: 0.82rem; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero { min-height: 0; display: flex; align-items: stretch; padding-top: clamp(2px, 0.6vw, 8px); }
+  .hero .wrap { width: 100%; }
+  .hero-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(24px, 4vw, 64px); align-items: start; min-height: inherit; }
+ 
+  /* photo as a background-free cut-out that bleeds into the black */
+  .hero-photo { align-self: flex-start ; display: flex; justify-content: center; }
+  .portrait {
+    width: 100%; max-width: 520px; height: auto; display: block;
+    /* pull the photo up to cancel the empty space baked into the top of the PNG.
+       Make this number more negative to raise the face further, less to lower it. */
+    margin-top: clamp(-72px, -5vw, -24px);
+    /* soft fade at the very bottom/sides so a cut-out melts into the page */
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 9%);
+    mask-image: linear-gradient(to top, transparent 0%, #000 9%);
+  }
+ 
+  .hero-copy { align-self: center; padding-bottom: 0; }
+  .hero-copy .eyebrow { color: var(--signal); font-size: 1rem; letter-spacing: 0.04em; text-transform: none; margin-bottom: 0.4rem; }
+  .hero-copy .eyebrow::before { display: none; }
+  .hero-title { font-size: clamp(2.8rem, 7.5vw, 6rem); font-weight: 900; line-height: 0.98; }
+  .hero-name { font-family: "Archivo", sans-serif; font-stretch: 125%; font-weight: 800; color: var(--signal); font-size: clamp(1.3rem, 3vw, 2.1rem); letter-spacing: 0.02em; margin: 0.35rem 0 1.4rem; }
+  .hero .lede { color: var(--text-soft); font-size: clamp(1rem, 1.3vw, 1.16rem); max-width: 99ch; margin-bottom: 1.9em; }
+ 
+  @media (max-width: 900px) {
+    .hero { min-height: 0; padding-bottom: 0; }
+    .hero-grid { grid-template-columns: 1fr; gap: 8px; align-items: stretch; }
+    .hero-copy { order: -1; align-self: auto; padding-bottom: 0; }
+    .portrait { max-width: 360px; }
+  }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.6em;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.86rem;
+    padding: 0.85em 1.3em; border-radius: 2px; border: 1px solid var(--hair);
+    color: var(--text);
+    transition: transform 0.18s var(--ease), background 0.18s, color 0.18s, border-color 0.18s;
+  }
+  .btn-primary { background: var(--signal); color: #fff; border-color: var(--signal); }
+  .btn-primary:hover, .btn-primary:focus-visible { background: #fff; color: #000; border-color: #fff; transform: translateY(-2px); }
+  .btn-ghost { border-color: rgba(236,237,239,0.25); }
+  .btn-ghost:hover, .btn-ghost:focus-visible { background: #fff; color: #000; border-color: #fff; transform: translateY(-2px); }
+  .nav-cta { padding: 0.5em 1em; font-size: 0.78rem; }
+
+  /* ---------- PLOT (signature) ---------- */
+  .plot-card {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 4px;
+    padding: clamp(16px, 2.2vw, 26px);
+    box-shadow: 0 30px 70px -32px rgba(0,0,0,0.9);
+    position: relative; overflow: hidden;
+  }
+  .plot-head {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem;
+    color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; letter-spacing: 0.04em;
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section { padding-block: clamp(36px, 6vw, 72px); }
+  .sec-head { max-width: none; margin-bottom: clamp(32px, 4vw, 56px); }
+  .sec-head h2 { font-size: var(--fs-h2); font-weight: 800; margin-top: 0.5rem; }
+  .sec-head p { color: var(--muted); margin-top: 1rem; }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
+  @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { margin: 0 0 1.1em; color: var(--text-soft); }
+  .about-grid p:first-child { font-size: clamp(1.1rem, 1.5vw, 1.3rem); color: var(--text); }
+  .facts { border-top: 1px solid var(--grid-strong); }
+  .fact {
+    display: flex; justify-content: space-between; gap: 1rem; padding: 0.95rem 0;
+    border-bottom: 1px solid var(--hair); font-family: "IBM Plex Mono", monospace; font-size: 0.86rem;
+  }
+  .fact .k { color: var(--muted); }
+  .fact .v { color: var(--text); text-align: right; font-weight: 500; }
+
+  /* ---------- WORK ---------- */
+  .work-list { display: grid; gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: 4px; overflow: hidden; }
+  .case {
+    background: var(--bg); padding: clamp(24px, 3.4vw, 44px);
+    display: grid; grid-template-columns: auto 1fr auto; gap: clamp(16px, 3vw, 44px);
+    align-items: start; transition: background 0.25s;
+  }
+  .case:hover { background: var(--surface); }
+  @media (max-width: 760px) { .case { grid-template-columns: 1fr; gap: 14px; } }
+  .case-id { font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; color: var(--cyan); padding-top: 0.4em; }
+  .case-q { font-family: "Archivo", sans-serif; font-stretch: 110%; font-weight: 700; font-size: var(--fs-h3); line-height: 1.15; margin-bottom: 0.7em; color: #fff; }
+  .case-body { color: var(--text-soft); max-width: 56ch; margin: 0 0 1.1em; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--muted); border: 1px solid var(--hair); padding: 0.3em 0.65em; border-radius: 2px; }
+  .case-metric { text-align: right; min-width: 130px; }
+  @media (max-width: 760px) { .case-metric { text-align: left; } }
+  .case-metric .num { font-family: "Archivo", sans-serif; font-stretch: 125%; font-weight: 900; font-size: clamp(1.8rem, 3.2vw, 2.6rem); line-height: 1; color: var(--signal); display: block; }
+  .case-metric .lab { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--muted); margin-top: 0.4em; display: block; }
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: 4px; overflow: hidden; }
+  .skill-col { background: var(--bg); padding: clamp(20px, 2.4vw, 30px); }
+  .skill-col h3 {
+    font-family: "IBM Plex Mono", monospace; font-stretch: normal; font-size: 0.78rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); font-weight: 600;
+    margin-bottom: 1.1rem; display: flex; gap: 0.6em; align-items: center;
+  }
+  .skill-col h3 .ix { color: var(--muted); }
+  .skill-col ul { list-style: none; margin: 0; padding: 0; }
+  .skill-col li { padding: 0.45em 0; border-bottom: 1px dashed var(--hair); font-size: 0.95rem; color: var(--text-soft); }
+  .skill-col li:last-child { border-bottom: 0; }
+
+  /* ---------- CARD GRID (education · certifications · achievements) ---------- */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: 4px; overflow: hidden; }
+  .card { background: var(--bg); padding: clamp(22px, 2.6vw, 32px); transition: background 0.25s; }
+  .card:hover { background: var(--surface); }
+  .card .c-when { font-family: "IBM Plex Mono", monospace; font-size: 0.76rem; letter-spacing: 0.04em; color: var(--cyan); }
+  .card .c-title { font-family: "Archivo", sans-serif; font-stretch: 110%; font-weight: 700; font-size: 1.15rem; line-height: 1.15; margin: 0.4em 0 0.15em; color: #fff; }
+  .card .c-org { color: var(--muted); font-size: 0.9rem; }
+  .card .c-desc { color: var(--text-soft); font-size: 0.92rem; margin-top: 0.7em; }
+  .card ul { list-style: none; margin: 0.7em 0 0; padding: 0; }
+  .card li { padding: 0.45em 0; border-bottom: 1px dashed var(--hair); font-size: 0.92rem; color: var(--text-soft); }
+  .card li:last-child { border-bottom: 0; }
+  .card .c-tag { display: inline-flex; align-items: center; gap: 0.4em; margin-top: 0.9em; font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; color: var(--muted); border: 1px solid var(--hair); padding: 0.35em 0.7em; border-radius: 2px; transition: color 0.2s, border-color 0.2s; }
+  .card .c-tag:hover, .card .c-tag:focus-visible { color: var(--text); border-color: rgba(236,237,239,0.4); }
+
+  /* Achievements: four columns on desktop, balanced 2×2 on tablet, single column on phone */
+  #awards .card-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1080px) { #awards .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px)  { #awards .card-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: clamp(22px, 3vw, 34px); }
+  .filter-btn {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; letter-spacing: 0.04em;
+    color: var(--muted); background: transparent; border: 1px solid var(--hair);
+    padding: 0.55em 1.15em; border-radius: 2px; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.18s var(--ease);
+  }
+  .filter-btn:hover, .filter-btn:focus-visible { color: var(--text); border-color: rgba(236,237,239,0.4); }
+  .filter-btn.active { background: var(--signal); color: #fff; border-color: var(--signal); }
+
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: clamp(16px, 2vw, 22px); }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--hair); border-radius: 6px;
+    overflow: hidden; display: flex; flex-direction: column;
+    transition: transform 0.25s var(--ease), border-color 0.25s, box-shadow 0.25s;
+  }
+  .project-card:hover {
+    transform: translateY(-4px); border-color: rgba(168,146,232,0.5);
+    box-shadow: 0 24px 50px -28px rgba(0,0,0,0.9);
+  }
+  .project-card.hide { display: none; }
+  .proj-thumb {
+    aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--surface-2), #08090b);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    border-bottom: 1px solid var(--hair); position: relative;
+  }
+  .proj-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .proj-thumb .ph {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .proj-thumb::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(120% 100% at 0% 0%, rgba(168,146,232,0.10), transparent 60%);
+    pointer-events: none;
+  }
+  .proj-body { padding: clamp(18px, 2vw, 24px); display: flex; flex-direction: column; flex: 1; }
+  .proj-cat { font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); }
+  .proj-title { font-family: "Archivo", sans-serif; font-stretch: 110%; font-weight: 700; font-size: 1.18rem; line-height: 1.18; margin: 0.5em 0 0.45em; color: #fff; }
+  .proj-desc { color: var(--text-soft); font-size: 0.92rem; margin: 0 0 1.2em; flex: 1; text-align: left; }
+  .proj-link {
+    display: inline-flex; align-items: center; gap: 0.45em; align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--text);
+    border: 1px solid var(--hair); padding: 0.55em 0.95em; border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.18s var(--ease);
+  }
+  .proj-link:hover, .proj-link:focus-visible { background: #fff; color: #000; border-color: #fff; transform: translateY(-2px); }
+  .proj-empty { display: none; color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; padding: 1.4em 0; }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline { border-left: 2px solid var(--grid-strong); margin-left: 6px; }
+  .tl-item { position: relative; padding: 0 0 clamp(28px, 4vw, 44px) clamp(22px, 3vw, 38px); }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--bg); border: 2.5px solid var(--signal);
+  }
+  .tl-when { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; color: var(--cyan); }
+  .tl-role { font-family: "Archivo", sans-serif; font-stretch: 110%; font-weight: 700; font-size: 1.2rem; margin: 0.25em 0 0.1em; color: #fff; }
+  .tl-org { color: var(--muted); font-size: 0.92rem; }
+  .tl-desc { color: var(--text-soft); margin-top: 0.6em; max-width: 99ch; }
+  .tl-tags { margin-top: 0.7em; }
+
+  /* ---------- CONTACT ---------- */
+  .contact { background: var(--surface); border: 1px solid var(--hair); border-radius: 4px; padding: clamp(36px, 6vw, 80px); text-align: center; }
+  .contact h2 { font-size: var(--fs-h2); font-weight: 800; margin: 0.6rem 0 1rem; }
+  .contact p { color: var(--text-soft); max-width: 48ch; margin: 0 auto 2rem; }
+
+  footer.foot {
+    padding-block: 32px; display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; justify-content: space-between;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.76rem; color: var(--muted); border-top: 1px solid var(--hair);
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="dot"></span>Nisha Jha</a>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+    <div class="nav-right" id="nav-menu">
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#top">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <!--<a href="#awards">Awards</a>-->
+      </nav>
+      <a class="btn btn-primary nav-cta" href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <!-- portrait, beside the intro text -->
+      <div class="reveal hero-photo">
+        <img class="portrait" src="pf_img.png" alt="Portrait of Nisha Jha, Data Analyst" />
+      </div>
+      <div class="reveal hero-copy">
+        <span class="eyebrow">I am a</span>
+        <h1 class="hero-title">Data Analyst</h1>
+        <p class="lede">A data-focused professional with a year in SEO and growth analytics — turning traffic, retention, and revenue data into the dashboards and KPI reports teams use to decide what to do next.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="Nisha_Jha_CV.pdf" download>Download CV</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">01 — About</span>
+        <h2>Most data problems are really question problems.</h2>
+      </div>
+      <div class="about-grid">
+        <div class="reveal">
+          <p>I'm a data analyst focused on SEO and growth analytics. My job is to figure out which number actually answers the question a team is trying to ask — then report it clearly enough that people know what to do next.</p>
+          <p>I'm a recent Computer Science &amp; Engineering (Data Science) graduate, with honors in AI &amp; ML, and I currently work as an SEO Analyst at Feedspot. There I build and maintain the dashboards and KPI reports the product and growth teams rely on — tracking traffic, signups, churn, conversion, and user behaviour across markets.</p>
+          <p>I like work that's reproducible and easy to trust: clean SQL, documented metrics, and dashboards that hold up. Charts are the easy part — a clear recommendation is the deliverable.</p>
+        </div>
+        <div class="facts reveal">
+          <div class="fact"><span class="k">Based in</span><span class="v">Mumbai, India</span></div>
+          <div class="fact"><span class="k">Focus</span><span class="v">Data &amp; Business analytics</span></div>
+          <div class="fact"><span class="k">Currently</span><span class="v">SEO Analyst · Feedspot</span></div>
+          <!--<div class="fact"><span class="k">Specialty</span><span class="v">KPI reporting &amp; funnels</span></div>-->
+          <div class="fact"><span class="k">Experience</span><span class="v">1 year</span></div>
+          <div class="fact"><span class="k">Strengths</span><span class="v">Teamwork · Quick learner · Communication</span></div>
+          <div class="fact"><span class="k">Hobbies</span><span class="v">Reading · Music · Dancing · Painting</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">02 — Toolkit</span>
+        <h2>The instruments, grouped by what they're for.</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-col reveal">
+          <h3><span class="ix">01</span> Query &amp; languages</h3>
+          <ul>
+            <li>MySQL</li>
+            <li>Python — NumPy, Pandas</li>
+          </ul>
+        </div>
+        <div class="skill-col reveal">
+          <h3><span class="ix">02</span> Analytics &amp; reporting</h3>
+          <ul>
+            <li>KPI reporting</li>
+            <li>Funnel &amp; churn analysis</li>
+            <li>Cohort analysis</li>
+            <li>User behaviour analysis</li>
+          </ul>
+        </div>
+        <div class="skill-col reveal">
+          <h3><span class="ix">03</span> Product &amp; events</h3>
+          <ul>
+            <li>Product analytics</li>
+            <li>Event analytics</li>
+            <li>Search analytics</li>
+            <li>Conversion &amp; retention</li>
+          </ul>
+        </div>
+        <div class="skill-col reveal">
+          <h3><span class="ix">04</span> Tools &amp; BI</h3>
+          <ul>
+            <li>Looker Studio</li>
+            <li>Power BI</li>
+            <li>Google Analytics</li>
+            <li>Excel </li>
+            <li>Google Sheets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <!--
+    HOW TO EDIT:
+    • Each project is one <article class="project-card"> block.
+    • data-cat holds the tools used (used by the filter) — keep them lowercase,
+      space-separated, and matching a filter button below: sql · python · power bi · excel
+    • To use a real screenshot, replace the <span class="ph">…</span> line inside
+      .proj-thumb with:  <img src="your-image.png" alt="Project screenshot" />
+    • Point each "View project" link's href to your Looker Studio / GitHub / notebook / write-up.
+  -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">03 — Projects</span>
+        <h2>A few questions I chased through the data.</h2>
+        <p>Selected case studies — the question that started each one, what I built, and where it landed.</p>
+      </div>
+
+      <div class="proj-filters reveal" role="group" aria-label="Filter projects by tool">
+        <button class="filter-btn active" type="button" data-filter="all">All</button>
+        <button class="filter-btn" type="button" data-filter="sql">SQL</button>
+        <button class="filter-btn" type="button" data-filter="python">Python</button>
+        <button class="filter-btn" type="button" data-filter="power bi">Power BI</button>
+        <button class="filter-btn" type="button" data-filter="excel">Excel</button>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card reveal" data-cat="sql python">
+          <div class="proj-thumb"><span class="ph">RetailOps · SQL + Python + HTML</span></div>
+          <div class="proj-body">
+            <span class="proj-cat">SQL · Python · HTML</span>
+            <h3 class="proj-title">RetailOps</h3>
+            <p class="proj-desc">Analyzed ~2,700 retail transactions with ABC/Pareto, RFM segmentation, and seasonal demand forecasting (MAE-validated); delivered reorder and stockout-risk insights through an automated report and dashboard.</p>
+            <a class="proj-link" href="https://github.com/Nishajha11/RetailOps" target="_blank" rel="noopener">View project ↗</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-cat="looker power bi">
+          <div class="proj-thumb"><span class="ph">SEO · Looker Studio</span></div>
+          <div class="proj-body">
+            <span class="proj-cat">Looker Studio · GA4</span>
+            <h3 class="proj-title">Organic Traffic &amp; Keyword Dashboard</h3>
+            <p class="proj-desc">A live dashboard tracking sessions, impressions, and ranking keywords across markets — built so the growth team could spot which content was gaining or slipping at a glance.</p>
+            <a class="proj-link" href="#" target="_blank" rel="noopener">View project ↗</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-cat="python">
+          <div class="proj-thumb"><span class="ph">Cohorts · Python</span></div>
+          <div class="proj-body">
+            <span class="proj-cat">Python · Pandas</span>
+            <h3 class="proj-title">Cohort Retention Study</h3>
+            <p class="proj-desc">Grouped users by signup month to see how retention curves differed by acquisition channel — and which cohorts were actually worth re-engaging.</p>
+            <a class="proj-link" href="#" target="_blank" rel="noopener">View project ↗</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-cat="power bi">
+          <div class="proj-thumb"><span class="ph">Churn · Power BI</span></div>
+          <div class="proj-body">
+            <span class="proj-cat">Power BI</span>
+            <h3 class="proj-title">Churn &amp; Conversion Deep-Dive</h3>
+            <p class="proj-desc">An interactive report breaking churn down by plan, region, and tenure, with conversion rates side-by-side so the team could see cause and effect together.</p>
+            <a class="proj-link" href="#" target="_blank" rel="noopener">View project ↗</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-cat="excel sql">
+          <div class="proj-thumb"><span class="ph">KPI · Excel + SQL</span></div>
+          <div class="proj-body">
+            <span class="proj-cat">Excel · SQL</span>
+            <h3 class="proj-title">Automated Weekly KPI Report</h3>
+            <p class="proj-desc">Replaced a manual Monday-morning spreadsheet with a documented, query-backed report — same numbers every week, no copy-paste, and a clear audit trail.</p>
+            <a class="proj-link" href="#" target="_blank" rel="noopener">View project ↗</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-cat="python sql">
+          <div class="proj-thumb"><span class="ph">Segments · Python + SQL</span></div>
+          <div class="proj-body">
+            <span class="proj-cat">Python · SQL</span>
+            <h3 class="proj-title">User Behaviour Segmentation</h3>
+            <p class="proj-desc">Clustered users by behaviour rather than demographics to find the handful of segments that actually drove revenue — and gave each a plain-language label.</p>
+            <a class="proj-link" href="#" target="_blank" rel="noopener">View project ↗</a>
+          </div>
+        </article>
+      </div>
+
+      <p class="proj-empty">No projects in this category yet.</p>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">04 — Experience</span>
+        <h2>Where I work</h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-when mono">June 2025 — present</div>
+          <h3 class="tl-role">SEO Analyst</h3>
+          <div class="tl-org">Feedspot · Mumbai</div>
+          <p class="tl-desc">Build and maintain the dashboards and KPI reports the product and growth teams run on — across traffic, retention, conversion, and user behaviour, on both Feedspot and the MillionPodcasts product.</p>
+        </div>
+        <!-- Add more roles/internships here using the same .tl-item block -->
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">05 — Education</span>
+        <h2>The foundation under the work.</h2>
+      </div>
+      <div class="card-grid">
+        <div class="card reveal">
+          <div class="c-when mono">2021 — 2025</div>
+          <h3 class="c-title">B.E. Computer Science &amp; Engineering (Data Science)</h3>
+          <div class="c-org">Vidyavardhini's College of Engineering &amp; Technology, Vasai</div>
+          <p class="c-desc">Honors in AI &amp; ML · CGPA 9.08 / 10. Foundations in data science, statistics, and machine learning — and the habit of asking "compared to what?"</p>
+        </div>
+        <div class="card reveal">
+          <div class="c-when mono">2021</div>
+          <h3 class="c-title">HSC — Higher Secondary (Class XII)</h3>
+          <div class="c-org">Sardar Vallabhbhai Patel Junior College, Dahisar</div>
+          <p class="c-desc">Scored 86.5%.</p>
+        </div>
+        <div class="card reveal">
+          <div class="c-when mono">2019</div>
+          <h3 class="c-title">SSC — Secondary (Class X)</h3>
+          <div class="c-org">S.L. Porwal English Medium High School</div>
+          <p class="c-desc">Scored 87.4%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <!--<section id="certs">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">06 — Certifications</span>
+        <h2>Verified, not just listed.</h2>
+      </div>
+      <div class="card-grid">
+        <div class="card reveal">
+          <div class="c-when mono">2025</div>
+          <h3 class="c-title">Data Analysis with Python</h3>
+          <div class="c-org">freeCodeCamp</div>
+           
+          <a class="c-tag" href="#" target="_blank" rel="noopener">View credential ↗</a>
+        </div>
+        <div class="card reveal">
+          <div class="c-when mono">2023</div>
+          <h3 class="c-title">Data Science 101</h3>
+          <div class="c-org">IBM</div>
+          <a class="c-tag" href="#" target="_blank" rel="noopener">View credential ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>-->
+
+  <!-- ACHIEVEMENTS -->
+  <section id="awards">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">06 — Beyond the desk</span>
+        <h2>Curricular, co-curricular &amp; extra-curricular.</h2>
+      </div>
+      <div class="card-grid">
+        <!-- CURRICULAR = academic / coursework-related -->
+        <div class="card reveal">
+          <h3 class="c-title">Curricular</h3>
+          <ul>
+            <li>Scored a CGPI of 9.08</li>
+            <li>Ranked among Top 5 in all Semesters in CSE department</li>
+            <li>Completed Honors in AI & ML</li>
+          </ul>
+        </div>
+        <!-- CO-CURRICULAR = adjacent to academics (fests, hackathons, workshops, clubs) -->
+        <div class="card reveal">
+          <h3 class="c-title">Co-curricular</h3>
+          <ul>
+            <li>Winner at NSC-ETT 2025, TCET Mumbai – for RetailOps Paper presentation</li>
+            <li>Winner Oscillations 2025, VCET Palghar – for Mediscript AI paper presentation</li>
+            <li>2nd Prize, VNPS 2025, VCET Palghar – for Mediscript AI project presentation </li>
+            <li>Top 5 Finalists Herspark Hackathon 2025, TCET Mumbai – for Mediscript AI project presentation </li>
+          </ul>
+        </div>
+        <!-- EXTRA-CURRICULAR = outside academics (sports, arts, volunteering, leadership) -->
+        <div class="card reveal">
+          <h3 class="c-title">Extra-curricular</h3>
+          <ul>
+            <li>Chairperson of CSE Departmental committee, organized the event Code-O-Fiesta 2023, a coding competition</li>
+            <li>Co - Chairperson of CSE Departmental committee, organized the event Product Vidya 2023, a product showcase competition</li>
+            <li>Social Media Head of Students Council, contributed in organizing the VCET Cultural Fest - ZEAL in years 2022 to 2025</li>
+            <li>Organising Head of Computer Society of India, contributed in organizing VNPS and Oscillations 2023</li>
+          </ul>
+        </div>
+        <!-- SPORTS = competitive sport, college (Avahan) & school -->
+        <div class="card reveal">
+          <h3 class="c-title">Sports</h3>
+          <ul>
+            <li>Captain &amp; Winner — Kabaddi, Avahan 2025 (led the college team to the title)</li>
+            <li>Winner — Throwball, Avahan 2025</li>
+            <li>Winner — Volleyball &amp; Throwball, Avahan 2024</li>
+            <li>Winner — Volleyball, Avahan 2023</li>
+            <li>Multiple winner &amp; runner-up titles across school-level sports</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact reveal">
+        <span class="eyebrow">07 — Contact</span>
+        <h2>Have a question buried in your data?</h2>
+        <p>Open to Data Analyst roles. Tell me what decision you're stuck on — that's usually where the good analysis starts.</p>
+        <div class="cta-row" style="justify-content:center;">
+          <a class="btn btn-primary" href="mailto:jhanisha1104@gmail.com">jhanisha1104@gmail.com</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/nishajha11" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="btn btn-ghost" href="tel:+919820940091">+91 98209 40091</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot wrap">
+  <span>© 2026 Nisha Jha — Data Analyst</span>
+  <span>SEO &amp; growth analytics · Mumbai, IN</span>
+</footer>
+
+<script>
+  // scroll-reveal: fade sections in as they enter the viewport
+    const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // projects: filter cards by tool
+  (function () {
+    const filters = Array.from(document.querySelectorAll('.filter-btn'));
+    const cards = Array.from(document.querySelectorAll('.project-card'));
+    const empty = document.querySelector('.proj-empty');
+    if (!filters.length || !cards.length) return;
+
+    filters.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filters.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const cat = (btn.dataset.filter || 'all').toLowerCase();
+        let visible = 0;
+        cards.forEach(card => {
+          const cats = (card.dataset.cat || '').toLowerCase();
+          const show = cat === 'all' || cats.includes(cat);
+          card.classList.toggle('hide', !show);
+          if (show) visible++;
+        });
+        if (empty) empty.style.display = visible ? 'none' : 'block';
+      });
+    });
+  })();
+
+  // mobile nav: hamburger toggle
+  (function () {
+    const nav = document.querySelector('header.nav');
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('nav-menu');
+    if (!nav || !toggle || !menu) return;
+
+    const setOpen = (open) => {
+      nav.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+
+    toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+
+    // close after picking a destination
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+
+    // close on Escape and return focus to the button
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); toggle.focus(); }
+    });
+
+    // reset state if the viewport grows back to desktop
+    const mq = window.matchMedia('(min-width: 761px)');
+    mq.addEventListener('change', (e) => { if (e.matches) setOpen(false); });
+  })();
+</script>
+</body>
+</html>
