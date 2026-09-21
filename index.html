@@ -21,15 +21,15 @@
     --muted:   #7F8B85;
     --line:    rgba(237, 242, 238, 0.10);
 
-    --accent:  #5FD3B0;   /* mint jade — primary */
-    --accent-soft: rgba(95, 211, 176, 0.14);
-    --pop:     #FF7A4D;   /* tangerine — highlights */
+    --accent:  #B8A4F4;   /* lavender — primary */
+    --accent-soft: rgba(184, 164, 244, 0.15);
+    --pop:     #F4A3C8;   /* tangerine — highlights */
     --pop-soft:rgba(255, 122, 77, 0.16);
     --butter:  rgba(247, 200, 90, 0.14);
     --lilac:   rgba(167, 150, 255, 0.15);
     --sky:     rgba(110, 180, 230, 0.14);
 
-    --maxw: 1000px;
+    --maxw: 1160px;
     --r: 22px;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -51,6 +51,7 @@
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; }
   button { font: inherit; }
+  p {text-align: justify;}
 
   .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: clamp(20px, 5vw, 40px); }
   .mono { font-family: var(--f-mono); }
@@ -136,8 +137,9 @@
   .btn:hover .arr { transform: translate(2px, -2px); }
 
   /* ---------- HERO ---------- */
-  .hero { padding-top: clamp(40px, 7vw, 90px); padding-bottom: clamp(30px, 5vw, 60px); }
-  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .hero { padding-top: clamp(14px, 2.5vw, 32px); padding-bottom: clamp(30px, 5vw, 60px); }
+  .hero-grid > .reveal:first-child { padding-top: clamp(0px, 2vw, 28px); }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
   .status {
     display: inline-flex; align-items: center; gap: 0.6em; font-size: 0.85rem; font-weight: 500;
     padding: 0.4em 0.95em 0.4em 0.75em; border-radius: 99px; background: var(--accent-soft); color: var(--accent);
@@ -173,14 +175,14 @@
   }
   .portrait-card img { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
   .chip {
-    position: absolute; z-index: 2; display: flex; align-items: center; gap: 0.7em;
+    position: absolute; z-index: 1; display: flex; align-items: center; gap: 0.7em;
     background: var(--card); border: 1px solid var(--line); border-radius: 16px;
     padding: 0.65em 0.9em; box-shadow: 0 18px 36px -20px rgba(21,32,27,0.45);
     font-size: 0.8rem; font-weight: 600; animation: float 6s ease-in-out infinite;
   }
   .chip small { display: block; font-family: var(--f-mono); font-size: 0.66rem; font-weight: 400; color: var(--muted); }
-  .chip-1 { top: 16%; left: -9%; }
-  .chip-2 { bottom: 12%; right: -8%; animation-delay: -3s; }
+  .chip-1 { top: 8%; left: -15%; }
+  .chip-2 { bottom: 8%; right: -15%; animation-delay: -3s; }
   .chip .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--pop-soft); color: var(--pop); }
   .chip-2 .ic { background: var(--butter); color: #9A6B00; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -383,23 +385,24 @@
   /* ---------- DARK THEME TWEAKS ---------- */
   html { color-scheme: dark; }
   .nav-inner { box-shadow: 0 10px 30px -18px rgba(0,0,0,0.8); }
-  .portrait-card { background: radial-gradient(circle at 50% 40%, rgba(95,211,176,0.26), transparent 62%), radial-gradient(rgba(237,242,238,0.08) 1.2px, transparent 1.2px) 0 0 / 16px 16px, #111916; }
+  .portrait-card { background: radial-gradient(circle at 50% 40%, rgba(184,164,244,0.28), transparent 62%), radial-gradient(rgba(237,242,238,0.08) 1.2px, transparent 1.2px) 0 0 / 16px 16px, #13121A; }
   .chip-2 .ic { color: #F7C85A; }
   .marquee { background: var(--paper-2); color: var(--ink); }
   .about-copy mark { background: linear-gradient(transparent 58%, rgba(247,200,90,0.32) 58%); }
   .skill-col:nth-child(2) .badge { color: #FF9A73; }
-  .skill-col:nth-child(3) .badge { color: #B7A8FF; }
+  .skill-col:nth-child(3) .badge { background: var(--sky); color: #8CC8F0; }
   .skill-col:nth-child(4) .badge { color: #F7C85A; }
   .skill-col:hover, .project-card:hover { box-shadow: 0 30px 50px -28px rgba(0,0,0,0.85); }
   .proj-thumb { background: radial-gradient(rgba(237,242,238,0.09) 1.1px, transparent 1.1px) 0 0 / 14px 14px, var(--t); }
   .project-card:nth-child(6n+6) .proj-thumb { --t: rgba(170,210,120,0.14); }
-  .edu-main { background: linear-gradient(150deg, #1B2C25, #121A16); color: var(--ink); border-color: rgba(95,211,176,0.3); }
+  .edu-main { background: linear-gradient(150deg, #231F33, #15141C); color: var(--ink); border-color: rgba(184,164,244,0.32); }
   .edu-main .edu-when, .edu-main .edu-org { color: var(--muted); }
   .edu-main .edu-desc { color: var(--ink-soft); }
   .edu-main .btn { color: var(--ink); border-color: rgba(237,242,238,0.3); }
   .edu-main .btn-pop { color: #fff; border-color: var(--pop); }
   .edu-main .btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .contact { background: linear-gradient(160deg, #16221D, #0F1613); color: var(--ink); border: 1px solid var(--line); }
+  .contact { background: linear-gradient(160deg, #1E1B2B, #111016); color: var(--ink); border: 1px solid var(--line); }
+  .contact::before { background: radial-gradient(circle, rgba(184,164,244,0.4), transparent 70%); }
   .contact .btn { color: var(--ink); border-color: rgba(237,242,238,0.3); }
   .contact .btn-pop { color: #fff; border-color: var(--pop); }
   .contact .btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
@@ -449,7 +452,7 @@
       <div class="reveal">
         <span class="status"><span class="pulse"></span>Open to Data Analyst roles</span>
         <p class="hello">Hi, I'm Nisha — a</p>
-        <h1 class="hero-title">Data<br><span class="under"><em class="serif">Analyst</em><svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14 C 80 4, 200 4, 296 12"/></svg></span></h1>
+        <h1 class="hero-title">Data <span class="under"><em class="serif">Analyst</em><svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14 C 80 4, 200 4, 296 12"/></svg></span></h1>
         <p class="lede">A data-focused professional with a year in SEO and growth analytics — turning traffic, retention, and revenue data into the dashboards and KPI reports teams use to decide what to do next.</p>
         <div class="cta-row">
           <a class="btn btn-dark" href="Nisha_Jha_CV.pdf" download>Download CV <span class="arr">↓</span></a>
