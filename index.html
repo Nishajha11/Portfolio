@@ -427,6 +427,25 @@
     .site-header, .actions, .filters, .docs, .cert, .viewer { display: none !important; }
     .reveal { opacity: 1; transform: none; }
   }
+
+@media screen and (min-width: 1100px) and (min-height: 600px) {
+  .hero > .wrap {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "text photo" "kpis photo"; column-gap: var(--gap-lg);
+  }
+  .hero-grid { display: contents; }
+  .hero-grid > div { grid-area: text; align-self: end; }
+  .kpis { grid-area: kpis; align-self: start; margin-top: clamp(20px, 4vh, 36px); }
+  .kpi { padding: 14px 16px; }
+  .kpi .val { font-size: 1.6rem; }
+  .kpi .note { font-size: .78rem; }
+  .portrait {
+    grid-area: photo; align-self: center;
+    width: min(clamp(260px, 24vw, 360px), 74vh - 110px);
+    width: min(clamp(260px, 24vw, 360px), 74svh - 110px);
+  }
+}
+  
 </style>
 </head>
 <body>
